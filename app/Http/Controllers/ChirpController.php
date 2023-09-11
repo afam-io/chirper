@@ -8,18 +8,19 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-
 class ChirpController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index() 
     {
+         
         return Inertia::render('Chirps/Index', [
-            //
-        ]);
-        }
+             'chirps' => Chirp::with('user:id,name')->latest()->get(),
+        ]); 
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -41,7 +42,6 @@ class ChirpController extends Controller
         $request->user()->chirps()->create($validated);
  
         return redirect(route('chirps.index'));
-    
     }
 
     /**
